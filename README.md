@@ -109,13 +109,13 @@ zones <- st_read(plotpath)  # Read the shapefile
 #Note: The shapefile must contain a "Name" field for identifying individual plots.
 
 ````
-2️⃣ Run Zonal Statistics
-
+2️⃣ Run Zonal Statistics  
+Gets the depth weighted value if you take a 20cm slice
 ````
 zonal_results <- s.zonalstats(
   soil_data = list(sg2_data$stack, psp_data$stack, sol_data$stack),  # Multiple datasets
   tdepth = 0,
-  bdepth = 5,
+  bdepth = 20,
   props = c("sand", "clay", "soc"),
   shapes = zones,
   plots = c("NW_plot", "SW_plot"),
