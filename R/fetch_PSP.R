@@ -4,28 +4,38 @@
 #' loads the rasters into memory, and optionally saves them to disk.
 #'
 #' @param aoi SpatRaster, SpatVector, or file path to a shapefile. The area of interest.
-#' @param properties Character vector. List of soil properties to download.
-#' @param depths Character vector. Depth intervals to download.
-#' @param output_dir Character. Directory where files will be saved. Set to NULL to keep only in memory.
+#' @param properties Character vector. List of soil properties to download (e.g., `"bd_mean"`, `"clay_mean"`, `"om_mean"`).
+#' @param depths Character vector. Depth intervals to download (e.g., `"0_5"`, `"5_15"`).
+#' @param output_dir Character. Directory where files will be saved. Set to `NULL` to keep only in memory.
 #' @param suffix Character. Optional suffix for file names.
 #' @param crs Character. Coordinate reference system for the output. Default is `"EPSG:4326"`.
 #' @param scale Numeric. Resolution in meters. Default is `30`.
 #' @param export Logical. If `TRUE`, saves downloaded rasters to `output_dir`. Default is `TRUE`.
 #' @param tosoc Logical. If `TRUE`, converts Organic Matter (`om_mean`) to Soil Organic Carbon (SOC) using the Van Bemmelen factor (1.724).
 #' @param convertOM Logical. If `TRUE`, converts Organic Matter (`om_mean`) from log10(%) to percentage. Default is `FALSE`.
+#'
 #' @return A list containing:
-#'   - `$stack`: A `SpatRaster` of all downloaded layers.
-#'   - `$file_paths`: A character vector of file paths (if `export = TRUE`).
-#'   - `$product`: Character string `"PSP"` to identify the dataset.
+#' \itemize{
+#'   \item \code{stack}: A `SpatRaster` of all downloaded layers.
+#'   \item \code{file_paths}: A character vector of file paths (if `export = TRUE`).
+#'   \item \code{product}: A character string `"PSP"` identifying the dataset.
+#' }
+#'
+#' @details
+#' This function interfaces with the POLARIS soil dataset on Google Earth Engine (GEE),
+#' allowing users to extract soil property maps for a specified area of interest (AOI).
+#' Users can optionally apply transformations to Organic Matter (OM) and Soil Organic Carbon (SOC).
+#'
 #' @import terra rgeedim
 #' @export
+#'
 #' @examples
 #' \dontrun{
-#' # Authenticate & initialize Google Earth Engine
+#' # Authenticate and initialize Google Earth Engine
 #' gd_authenticate(auth_mode = "notebook")
 #' gd_initialize()
 #'
-#' # Define AOI and fetch PSP data
+#' # Define AOI and output directory
 #' output_directory <- "path/to/your/directory"
 #' aoi_raster <- rast("path_to_aoi.tif")
 #'
@@ -74,6 +84,7 @@
 #' # Access the loaded SpatRaster
 #' plot(psp_data$stack)
 #' }
+
 
 fetch_PSP <- function(aoi, properties, depths, output_dir,
                       suffix = "", crs = "EPSG:4326", scale = 30,
