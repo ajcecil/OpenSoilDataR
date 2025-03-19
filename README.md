@@ -42,7 +42,9 @@ Set your area of interest (AOI) using a raster file:
 
 ````
 output_directory <- "path/to/output/directory"
-aoi_raster <- rast("path/to/example_raster.tif")
+raster_path <- system.file("extdata", "Kitchen_DEM3mhillsh.tif", package = "OpenSoilDataR")
+aoi_raster <- rast(raster_path) 
+
 ````
 🌍 Fetch Soil Property Data  
 1️⃣ Fetch PSP Data (POLARIS)
@@ -104,8 +106,8 @@ plot(sol_data$stack)
 1️⃣ Load the Plot Shapefile
 
 ````
-plotpath <- "path/to/example_shapefile.shp"
-zones <- st_read(plotpath)  # Read the shapefile
+shapefile_path <- system.file("extdata", "SABRplots.shp", package = "OpenSoilDataR")
+zones <- st_read(shapefile_path)  # Read the shapefile
 #Note: The shapefile must contain a "Name" field for identifying individual plots.
 
 ````
