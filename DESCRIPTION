@@ -3,7 +3,7 @@ Title: Download and Process Open Soil Datasets (POLARIS, SoilGrids, SOLUS100)
 Version: 0.1.0
 Authors@R: c(person("Meyer Patrick Bohn", email = "mpbohn@iastate.edu", role = c("aut", "cre")))
 Description: A package to download and process public soil datasets (POLARIS, SoilGrids, and SOLUS100) 
-    with automatic CRS adjustment, timeout handling, and easy clipping to an AOI.
+    with automatic CRS adjustment, timeout handling, easy clipping to an AOI, and zonal statistics.
 License: MIT
 Encoding: UTF-8
 LazyData: true
