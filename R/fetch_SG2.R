@@ -4,20 +4,30 @@
 #' while optionally saving them to disk.
 #'
 #' @param aoi SpatRaster, SpatVector, or file path to a shapefile. The area of interest.
-#' @param properties Character vector. List of soil properties to download.
-#' @param depths Character vector. Soil depth intervals to download.
+#' @param properties Character vector. List of soil properties to download (e.g., `"clay"`, `"soc"`, `"phh2o"`).
+#' @param depths Character vector. Soil depth intervals to download (e.g., `"0-5cm"`, `"5-15cm"`).
 #' @param output_dir Character. Directory where files will be saved. Set to NULL to keep only in memory.
 #' @param suffix Character. Optional suffix for file names.
 #' @param crs Character. Coordinate reference system for the output. Default is `"EPSG:4326"`.
-#' @param scale Numeric. Resolution in meters. Default is `250m`.
+#' @param scale Numeric. Resolution in meters. Default is `250` (meters).
 #' @param export Logical. If `TRUE`, saves downloaded rasters to `output_dir`. Default is `TRUE`.
-#' @param soctoperc Logical. If `TRUE`, converts Soil Organic Carbon (`soc`) from g/kg to %. Default is `FALSE`.
+#'
 #' @return A list containing:
-#'   - `$stack`: A `SpatRaster` of all downloaded layers.
-#'   - `$file_paths`: A character vector of file paths (if `export = TRUE`).
-#'   - `$product`: Character string `"SG2"` to identify the dataset.
+#' \itemize{
+#'   \item \code{stack}: A `SpatRaster` of all downloaded layers.
+#'   \item \code{file_paths}: A character vector of file paths (if `export = TRUE`).
+#'   \item \code{product}: A character string `"SG2"` identifying the dataset.
+#' }
+#'
+#' @details
+#' This function interfaces with the SoilGrids v2 dataset hosted on Google Earth Engine (GEE)
+#' and allows users to extract soil property maps for a given area of interest (AOI).
+#' Users can specify depth intervals and properties of interest, and optionally save the data
+#' to a specified directory.
+#'
 #' @import terra rgeedim
 #' @export
+#'
 #' @examples
 #' \dontrun{
 #' # Authenticate and initialize Google Earth Engine
@@ -57,6 +67,7 @@
 #' # Access the loaded SpatRaster
 #' plot(sg2_data$stack)
 #' }
+
 
 fetch_SG2 <- function(aoi, properties, depths,
                       output_dir = NULL, suffix = "",
