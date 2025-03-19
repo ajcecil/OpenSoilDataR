@@ -118,7 +118,7 @@ zonal_results <- s.zonalstats(
   bdepth = 5,
   props = c("sand", "clay", "soc"),
   shapes = zones,
-  plots = c("Plot_1", "Plot_2"),
+  plots = c("NW_plot", "SW_plot),
   stats = c("mean", "min", "max", "sd"),
   wtd.mean = TRUE,
   output_dir = "path/to/output/directory",
