@@ -106,6 +106,7 @@ plot(sol_data$stack)
 1️⃣ Load the Plot Shapefile
 
 ````
+library(sf)
 shapefile_path <- system.file("extdata", "SABRplots.shp", package = "OpenSoilDataR")
 zones <- st_read(shapefile_path)  # Read the shapefile
 #Note: The shapefile must contain a "Name" field for identifying individual plots.
