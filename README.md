@@ -6,6 +6,9 @@ This repository provides a tutorial on using **OpenSoilDataR** to fetch soil pro
 - **POLARIS (PSP)** ```Chaney, N.W., Minasny, B., Herman, J.D., Nauman, T.W., et al. 2019. POLARIS Soil Properties: 30-m Probabilistic Maps of Soil Properties Over the Contiguous United States. Water Resour Res 55, 2916–2938. https://doi.org/10.1029/2018WR022797```
 - **SoilGrids v2 (SG2)** ```Hengl, T., De Jesus, J.M., Heuvelink, G.B.M., Gonzalez, et al. 2017. SoilGrids250m: Global gridded soil information based on machine learning. PLoS One 12, e0169748. https://doi.org/10.1371/JOURNAL.PONE.0169748```
 - **SOLUS100 (SOL)**  ```Nauman, T.W., Kienast-Brown, S., Roecker, S.M., Brungard, et al. 2024. Soil landscapes of the United States (SOLUS): Developing predictive soil property maps of the conterminous United States using hybrid training sets. Soil Science Society of America Journal 88, 2046–2065. https://doi.org/10.1002/SAJ2.20769```
+- **Cal Soil Res Lab Soil Props 800m  (CSRL)**  **⚠️ Note:** This dataset is intended for **statewide and regional soil analysis**.
+For **local-scale, fine-resolution soil data**, refer to **SSURGO (Soil Survey Geographic Database)**.```Walkinshaw, Mike, A.T. O'Geen, D.E. Beaudette. "Soil Properties." California Soil Resource Lab, 1 Oct. 2020,
+casoilresource.lawr.ucdavis.edu/soil-properties/.```
 
 - And compute **zonal statistics** for soil properties.
 
