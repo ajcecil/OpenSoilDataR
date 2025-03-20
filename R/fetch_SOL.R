@@ -10,9 +10,12 @@
 #' @param output_dir Character. Directory where files will be saved. Set to NULL to keep in memory.
 #' @param suffix Character. Optional suffix for filenames.
 #' @param export Logical. If TRUE, saves downloaded rasters to `output_dir`.
-#' @return A list containing:
-#'   - `$stack`: A `SpatRaster` of all downloaded layers.
-#'   - `$file_paths`: A character vector of file paths (if `export = TRUE`).
+#' @return A list with the following elements:
+#' \describe{
+#'   \item{\code{stack}}{A `SpatRaster` containing all downloaded layers.}
+#'   \item{\code{file_paths}}{A character vector of file paths (if `export = TRUE`).}
+#'   \item{\code{product}}{A character string `"SOL"` identifying the dataset.}
+#' }
 #' @import terra httr utils
 #' @export
 #' @examples
