@@ -1,7 +1,0 @@
-# Ignore large raster & shapefiles
-inst/extdata/*.tif
-inst/extdata/*.shp
-inst/extdata/*.shx
-inst/extdata/*.dbf
-inst/extdata/*.prj
-output/
