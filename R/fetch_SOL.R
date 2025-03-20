@@ -20,7 +20,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' # Define AOI and fetch SOLUS100 data
+#' Define AOI and fetch SOLUS100 data
 #' aoi <- rast("path_to_aoi.tif")
 #' output_directory <- "path/to/your/directory"
 #' sol_data <- fetch_SOL(
@@ -33,7 +33,7 @@
 #'   export = TRUE
 #' )
 #'
-#' # Access the loaded SpatRaster
+#' Access the loaded SpatRaster
 #' plot(sol_data$stack)
 #' }
 fetch_SOL <- function(aoi, properties, depths, measures,
