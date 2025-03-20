@@ -10,17 +10,19 @@
 #' @param output_dir Character. Directory where files will be saved. Set to NULL to keep in memory.
 #' @param suffix Character. Optional suffix for filenames.
 #' @param export Logical. If TRUE, saves downloaded rasters to `output_dir`.
+#' 
 #' @return A list with the following elements:
 #' \describe{
 #'   \item{\code{stack}}{A `SpatRaster` containing all downloaded layers.}
 #'   \item{\code{file_paths}}{A character vector of file paths (if `export = TRUE`).}
 #'   \item{\code{product}}{A character string `"SOL"` identifying the dataset.}
 #' }
+#' 
 #' @import terra httr utils
 #' @export
 #' @examples
 #' \dontrun{
-#' Define AOI and fetch SOLUS100 data
+#' # Define AOI and fetch SOLUS100 data
 #' aoi <- rast("path_to_aoi.tif")
 #' output_directory <- "path/to/your/directory"
 #' sol_data <- fetch_SOL(
@@ -33,14 +35,14 @@
 #'   export = TRUE
 #' )
 #'
-#' Access the loaded SpatRaster
+#' # Access the loaded SpatRaster
 #' plot(sol_data$stack)
 #' }
+
 fetch_SOL <- function(aoi, properties, depths, measures,
                       output_dir = NULL, suffix = "", export = TRUE) {
 
-  require(terra)
-  require(httr)
+
 
   base_url <- "https://storage.googleapis.com/solus100pub/"
 
