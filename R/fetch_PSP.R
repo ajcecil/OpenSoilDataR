@@ -31,15 +31,15 @@
 #'
 #' @examples
 #' \dontrun{
-#' # Authenticate and initialize Google Earth Engine
+#' Authenticate and initialize Google Earth Engine
 #' gd_authenticate(auth_mode = "notebook")
 #' gd_initialize()
 #'
-#' # Define AOI and output directory
+#' Define AOI and output directory
 #' output_directory <- "path/to/your/directory"
 #' aoi_raster <- rast("path_to_aoi.tif")
 #'
-#' # Fetch POLARIS data (without OM to SOC conversion)
+#' Fetch POLARIS data (without OM to SOC conversion)
 #' psp_data <- fetch_PSP(
 #'   aoi = aoi_raster,
 #'   properties = c("bd_mean", "clay_mean"),
@@ -53,7 +53,7 @@
 #'   tosoc = FALSE
 #' )
 #'
-#' # Fetch POLARIS data with OM converted to percentage
+#' Fetch POLARIS data with OM converted to percentage
 #' psp_data_om <- fetch_PSP(
 #'   aoi = aoi_raster,
 #'   properties = c("om_mean", "clay_mean"),
@@ -67,7 +67,7 @@
 #'   tosoc = FALSE
 #' )
 #'
-#' # Fetch POLARIS data with OM converted to SOC
+#' Fetch POLARIS data with OM converted to SOC
 #' psp_data_soc <- fetch_PSP(
 #'   aoi = aoi_raster,
 #'   properties = c("om_mean", "clay_mean"),
@@ -81,7 +81,7 @@
 #'   tosoc = TRUE  # Convert OM to SOC using Van Bemmelen factor
 #' )
 #'
-#' # Access the loaded SpatRaster
+#' Access the loaded SpatRaster
 #' plot(psp_data$stack)
 #' }
 
