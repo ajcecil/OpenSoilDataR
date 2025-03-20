@@ -19,66 +19,66 @@ fetch_CSRL(
 \arguments{
 \item{aoi}{SpatRaster, SpatVector, or file path to a shapefile. The area of interest.}
 
-\item{properties}{Character vector. List of soil properties to download (see **Lookup Table** below).}
+\item{properties}{Character vector. List of soil properties to download (see \strong{Lookup Table} below).}
 
-\item{depths}{Character vector. Depth intervals to download (e.g., `"0-5"`, `"0-25"`, `"30-60"`).
-Required only for `_profile` properties.}
+\item{depths}{Character vector. Depth intervals to download (e.g., \code{"0-5"}, \code{"0-25"}, \code{"30-60"}).
+Required only for \verb{_profile} properties.}
 
-\item{output_dir}{Character. Directory where files will be saved. Set to `NULL` to keep only in memory.}
+\item{output_dir}{Character. Directory where files will be saved. Set to \code{NULL} to keep only in memory.}
 
 \item{suffix}{Character. Optional suffix for file names.}
 
-\item{crs}{Character. Coordinate reference system for the output. Default is `"EPSG:4326"`.}
+\item{crs}{Character. Coordinate reference system for the output. Default is \code{"EPSG:4326"}.}
 
-\item{scale}{Numeric. Resolution in meters. Default is `800` (coarse for regional analysis).}
+\item{scale}{Numeric. Resolution in meters. Default is \code{800} (coarse for regional analysis).}
 
-\item{tosoc}{Logical. If `TRUE`, converts Organic Matter (`som` or `som_max`) 
+\item{tosoc}{Logical. If \code{TRUE}, converts Organic Matter (\code{som} or \code{som_max})
 to Soil Organic Carbon (SOC) using the Van Bemmelen factor (1.724).}
 
-\item{export}{Logical. If `TRUE`, saves downloaded rasters to `output_dir`. Default is `TRUE`.}
+\item{export}{Logical. If \code{TRUE}, saves downloaded rasters to \code{output_dir}. Default is \code{TRUE}.}
 }
 \value{
 A list containing:
 \describe{
-  \item{\code{stack}}{A `SpatRaster` containing all downloaded layers.}
-  \item{\code{file_paths}}{A character vector of file paths (if `export = TRUE`).}
-  \item{\code{product}}{A character string `"CSRL"` identifying the dataset.}
+\item{\code{stack}}{A \code{SpatRaster} containing all downloaded layers.}
+\item{\code{file_paths}}{A character vector of file paths (if \code{export = TRUE}).}
+\item{\code{product}}{A character string \code{"CSRL"} identifying the dataset.}
 }
 }
 \description{
-Downloads specified soil property data from the **CSRL Soil Properties Dataset** on Google Earth Engine (GEE),
+Downloads specified soil property data from the \strong{CSRL Soil Properties Dataset} on Google Earth Engine (GEE),
 loads the rasters into memory, and optionally saves them to disk.
 }
 \details{
-**⚠️ Note:** This dataset is intended for **statewide and regional soil analysis**.  
-For **local-scale, fine-resolution soil data**, refer to **SSURGO (Soil Survey Geographic Database)**.
+\strong{⚠️ Note:} This dataset is intended for \strong{statewide and regional soil analysis}.
+For \strong{local-scale, fine-resolution soil data}, refer to \strong{SSURGO (Soil Survey Geographic Database)}.
 
+This function accesses the \strong{CSRL Soil Properties Dataset} in \strong{Google Earth Engine (GEE)},
+providing \strong{bulk density, cation exchange capacity (CEC), sand/silt/clay fractions, soil organic matter (SOM),
+saturated hydraulic conductivity (Ksat), pH, and other soil properties}.
 
-This function accesses the **CSRL Soil Properties Dataset** in **Google Earth Engine (GEE)**,  
-providing **bulk density, cation exchange capacity (CEC), sand/silt/clay fractions, soil organic matter (SOM),  
-saturated hydraulic conductivity (Ksat), pH, and other soil properties**.  
+\strong{Important:} \verb{_profile} datasets represent \strong{multi-depth image collections}.
+You must specify a \code{depth} for \verb{_profile} properties (e.g., \code{"0-25"}, \code{"30-60"}).
+\subsection{\strong{CSRL Soil Property Lookup Table}}{
 
-**Important:** `_profile` datasets represent **multi-depth image collections**.  
-You must specify a `depth` for `_profile` properties (e.g., `"0-25"`, `"30-60"`).
-
-## **CSRL Soil Property Lookup Table**
 \tabular{lll}{
-**Category**   \tab **Property Name**        \tab **Use Depths?**  \cr
-**Chemical**   \tab `"caco3"`                \tab ❌ No            \cr
-              \tab `"cec"`                   \tab ❌ No            \cr
-              \tab `"cec_profile"`           \tab ✅ Yes (`0-5`, `0-25`, `0-50`) \cr
-              \tab `"ec"`                    \tab ❌ No            \cr
-              \tab `"ph_profile"`            \tab ✅ Yes (`0-5`, `0-25`, `25-50`, `30-60`) \cr
-              \tab `"sar"`                   \tab ❌ No            \cr
-              \tab `"som"`                   \tab ❌ No            \cr
-**Physical**   \tab `"bulk_density"`         \tab ❌ No            \cr
-              \tab `"clay_profile"`          \tab ✅ Yes (`0-5`, `0-25`, `25-50`, `30-60`) \cr
-              \tab `"ksat_max"`              \tab ❌ No            \cr
-              \tab `"sand_profile"`          \tab ✅ Yes (`0-5`, `0-25`, `25-50`, `30-60`) \cr
-              \tab `"silt_profile"`          \tab ✅ Yes (`0-5`, `0-25`, `25-50`, `30-60`) \cr
-**Land Use**   \tab `"soil_order"`           \tab ❌ No            \cr
-              \tab `"soil_temp_regime"`      \tab ❌ No            \cr
-              \tab `"wind_erodibility_group"`\tab ❌ No            \cr
+\strong{Category}   \tab \strong{Property Name}        \tab \strong{Use Depths?}  \cr
+\strong{Chemical}   \tab \code{"caco3"}                \tab ❌ No            \cr
+\tab \code{"cec"}                   \tab ❌ No            \cr
+\tab \code{"cec_profile"}           \tab ✅ Yes (\code{0-5}, \code{0-25}, \code{0-50}) \cr
+\tab \code{"ec"}                    \tab ❌ No            \cr
+\tab \code{"ph_profile"}            \tab ✅ Yes (\code{0-5}, \code{0-25}, \code{25-50}, \code{30-60}) \cr
+\tab \code{"sar"}                   \tab ❌ No            \cr
+\tab \code{"som"}                   \tab ❌ No            \cr
+\strong{Physical}   \tab \code{"bulk_density"}         \tab ❌ No            \cr
+\tab \code{"clay_profile"}          \tab ✅ Yes (\code{0-5}, \code{0-25}, \code{25-50}, \code{30-60}) \cr
+\tab \code{"ksat_max"}              \tab ❌ No            \cr
+\tab \code{"sand_profile"}          \tab ✅ Yes (\code{0-5}, \code{0-25}, \code{25-50}, \code{30-60}) \cr
+\tab \code{"silt_profile"}          \tab ✅ Yes (\code{0-5}, \code{0-25}, \code{25-50}, \code{30-60}) \cr
+\strong{Land Use}   \tab \code{"soil_order"}           \tab ❌ No            \cr
+\tab \code{"soil_temp_regime"}      \tab ❌ No            \cr
+\tab \code{"wind_erodibility_group"}\tab ❌ No            \cr
+}
 }
 }
 \examples{
