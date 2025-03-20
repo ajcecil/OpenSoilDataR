@@ -12,7 +12,7 @@
 #' @param scale Numeric. Resolution in meters. Default is `30`.
 #' @param export Logical. If `TRUE`, saves downloaded rasters to `output_dir`. Default is `TRUE`.
 #' @param tosoc Logical. If `TRUE`, converts Organic Matter (`om_mean`) to Soil Organic Carbon (SOC) using the Van Bemmelen factor (1.724).
-#' @param convertOM Logical. If `TRUE`, converts Organic Matter (`om_mean`) from log10(%) to percentage. Default is `FALSE`.
+#' @param convertOM Logical. If `TRUE`, converts Organic Matter (`om_mean`) from log10 to percentage. Default is `FALSE`.
 #'
 #' @return A list with the following elements:
 #' \describe{
@@ -31,15 +31,15 @@
 #'
 #' @examples
 #' \dontrun{
-#' Authenticate and initialize Google Earth Engine
+#' # Authenticate and initialize Google Earth Engine
 #' gd_authenticate(auth_mode = "notebook")
 #' gd_initialize()
 #'
-#' Define AOI and output directory
+#' # Define AOI and output directory
 #' output_directory <- "path/to/your/directory"
 #' aoi_raster <- rast("path_to_aoi.tif")
 #'
-#' Fetch POLARIS data (without OM to SOC conversion)
+#' # Fetch POLARIS data (without OM to SOC conversion)
 #' psp_data <- fetch_PSP(
 #'   aoi = aoi_raster,
 #'   properties = c("bd_mean", "clay_mean"),
@@ -49,11 +49,11 @@
 #'   crs = "EPSG:4326",
 #'   scale = 30,
 #'   export = TRUE,
-#'   convertOM = FALSE,  # Keep OM in log10(%)
+#'   convertOM = FALSE,
 #'   tosoc = FALSE
 #' )
 #'
-#' Fetch POLARIS data with OM converted to percentage
+#' # Fetch POLARIS data with OM converted to percentage
 #' psp_data_om <- fetch_PSP(
 #'   aoi = aoi_raster,
 #'   properties = c("om_mean", "clay_mean"),
@@ -63,11 +63,11 @@
 #'   crs = "EPSG:4326",
 #'   scale = 30,
 #'   export = TRUE,
-#'   convertOM = TRUE,  # Convert OM from log10(%) to %
+#'   convertOM = TRUE,
 #'   tosoc = FALSE
 #' )
 #'
-#' Fetch POLARIS data with OM converted to SOC
+#' # Fetch POLARIS data with OM converted to SOC
 #' psp_data_soc <- fetch_PSP(
 #'   aoi = aoi_raster,
 #'   properties = c("om_mean", "clay_mean"),
@@ -77,20 +77,20 @@
 #'   crs = "EPSG:4326",
 #'   scale = 30,
 #'   export = TRUE,
-#'   convertOM = TRUE,  # Convert OM from log10(%) to %
-#'   tosoc = TRUE  # Convert OM to SOC using Van Bemmelen factor
+#'   convertOM = TRUE,
+#'   tosoc = TRUE
 #' )
 #'
-#' Access the loaded SpatRaster
+#' # Access the loaded SpatRaster
 #' plot(psp_data$stack)
 #' }
+
 
 
 fetch_PSP <- function(aoi, properties, depths, output_dir,
                       suffix = "", crs = "EPSG:4326", scale = 30,
                       export = TRUE, tosoc = FALSE, convertOM = FALSE) {
-  require(terra)
-  require(rgeedim)
+
 
   # Load AOI as SpatVector if it's a shapefile
   if (is.character(aoi) && grepl("\\.shp$", aoi)) {
