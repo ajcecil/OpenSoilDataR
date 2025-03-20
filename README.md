@@ -104,6 +104,22 @@ sol_data <- fetch_SOL(
 # Plot the loaded SpatRaster
 plot(sol_data$stack)
 
+4️⃣ Fetch CSRL Data (Soil Props 800m) - The list is pretty exhaustive -
+````
+csrl_data <- fetch_CSRL(
+  aoi= aoi_raster,
+  properties = c("som","clay_profile", "som_max"), ### som_max is percent by weight, som is omdensity kg/m2, does some conversions on the fly
+  depths= c("0-25", "0-5"),
+  output_dir= output_directory,
+  suffix= "",
+  crs= "EPSG:4326",
+  scale=800,
+  export=TRUE,
+  tosoc = TRUE)
+  
+# Plot the loaded SpatRaster
+plot(csrl_data$stack)
+
 ````
 📊 Compute Zonal Statistics  
 1️⃣ Load the Plot Shapefile
@@ -119,7 +135,7 @@ zones <- st_read(shapefile_path)  # Read the shapefile
 Gets the depth weighted value if you take a 20cm slice
 ````
 zonal_results <- s.zonalstats(
-  soil_data = list(sg2_data$stack, psp_data$stack, sol_data$stack),  # Multiple datasets
+  soil_data = list(sg2_data$stack, psp_data$stack, sol_data$stack, csrl_data$stack),  # Multiple datasets
   tdepth = 0,
   bdepth = 20,
   props = c("sand", "clay", "soc"),
