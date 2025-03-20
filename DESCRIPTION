@@ -6,6 +6,12 @@ Description: A package to download and process public soil datasets (POLARIS, So
     with automatic CRS adjustment, timeout handling, easy clipping to an AOI, zonal statistics, and synthetic profile creation for modeling.
 License: MIT
 Encoding: UTF-8
-LazyData: true
-Imports: terra, rgeedim, httr, utils, dplyr, sf, tidyr
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+Imports: 
+    dplyr,
+    httr,
+    rgeedim,
+    sf,
+    terra,
+    tidyr
