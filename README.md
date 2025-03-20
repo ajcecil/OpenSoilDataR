@@ -104,7 +104,7 @@ sol_data <- fetch_SOL(
 # Plot the loaded SpatRaster
 plot(sol_data$stack)
 
-4️⃣ Fetch CSRL Data (Soil Props 800m) - The list is pretty exhaustive -
+4️⃣ Fetch CSRL Data (Soil Props 800m) - The list is pretty exhaustive
 ````
 csrl_data <- fetch_CSRL(
   aoi= aoi_raster,
@@ -119,8 +119,8 @@ csrl_data <- fetch_CSRL(
   
 # Plot the loaded SpatRaster
 plot(csrl_data$stack)
-
 ````
+
 📊 Compute Zonal Statistics  
 1️⃣ Load the Plot Shapefile
 
