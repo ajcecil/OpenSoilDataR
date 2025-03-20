@@ -14,11 +14,11 @@
 #' @param tosoc Logical. If `TRUE`, converts Organic Matter (`om_mean`) to Soil Organic Carbon (SOC) using the Van Bemmelen factor (1.724).
 #' @param convertOM Logical. If `TRUE`, converts Organic Matter (`om_mean`) from log10(%) to percentage. Default is `FALSE`.
 #'
-#' @return A list containing:
-#' \itemize{
-#'   \item \code{stack}: A `SpatRaster` of all downloaded layers.
-#'   \item \code{file_paths}: A character vector of file paths (if `export = TRUE`).
-#'   \item \code{product}: A character string `"PSP"` identifying the dataset.
+#' @return A list with the following elements:
+#' \describe{
+#'   \item{\code{stack}}{A `SpatRaster` containing all downloaded layers.}
+#'   \item{\code{file_paths}}{A character vector of file paths (if `export = TRUE`).}
+#'   \item{\code{product}}{A character string `"PSP"` identifying the dataset.}
 #' }
 #'
 #' @details
