@@ -1,24 +1,63 @@
 #' Compute Zonal Statistics for Multiple Soil Products
 #'
 #' This function calculates zonal statistics for soil property rasters from POLARIS (PSP),
-#' SoilGrids v2 (SG2), and SOLUS100 (SOL). It ensures that depth intervals from different
+#' SoilGrids v2 (SG2), SOLUS100 (SOL), and CSRL Soil props 800. It ensures that depth intervals from different
 #' datasets are consistently translated, and supports depth-weighted averaging.
 #'
 #' @param soil_data A `SpatRaster` or list of `SpatRaster` objects from `fetch_PSP`, `fetch_SG2`, or `fetch_SOL`.
 #' @param tdepth Numeric. Top depth of interest (cm).
 #' @param bdepth Numeric. Bottom depth of interest (cm).
-#' @param props Character vector. Standardized soil properties (e.g., `"clay"`, `"sand"`, `"bulk_density"`).
+#' @param props Character vector. Standardized soil properties (e.g., `"clay"`, `"sand"`, `"bd"`).
 #' @param shapes `sf` or `SpatVector`. Polygon boundaries for statistics. **The "Name" field must match plot names.**
 #' @param plots Character vector. Names of plots to process (must match `shapes$Name`).
 #' @param stats Character vector. Statistics to calculate (`"mean"`, `"min"`, `"max"`, `"sd"`).
 #' @param wtd.mean Logical. If `TRUE`, computes depth-weighted mean across specified depth range.
 #' @param MakePlot Logical. If `TRUE`, generates raster plots for each statistic.
 #' @param output_dir Character. Directory to save output files. Set to `NULL` to disable file saving.
+#' 
 #' @return A list containing:
 #'   - `$Unweighted`: Data frame of zonal statistics per depth interval.
 #'   - `$Weighted`: Data frame of depth-weighted means (if `wtd.mean = TRUE`).
+#'
+#' @section Property Lookup:
+#' **Standardized soil properties across datasets.**
+#'
+#' \preformatted{
+#' property_lookup <- list(
+#' # Bulk Density
+#' "bd" = c(PSP = "bd_mean", SG2 = "bdod", SOL = "dbovendry", CSRL = "bulk_density"),
+#' # Soil Texture (Sand, Silt, Clay)
+#' "clay" = c(PSP = "clay_mean", SG2 = "clay", SOL = "claytotal", CSRL = "clay_profile"),
+#' "sand" = c(PSP = "sand_mean", SG2 = "sand", SOL = "sandtotal", CSRL = "sand_profile"),
+#' "silt" = c(PSP = "silt_mean", SG2 = "silt", SOL = "silttotal", CSRL = "silt_profile"),
+#' # Soil Organic Matter / Carbon
+#' "som" = c(PSP = "om_mean", SG2 = NA, SOL = NA, CSRL = "som_max"),
+#' "soc" = c(PSP = "soc", SG2 = "soc", SOL = "soc_max", CSRL = "soc_max"),
+#' "soc_stock" = c(PSP = NA, SG2 = "ocs", SOL = NA, CSRL = "soc_stock"),
+#' "som_stock" = c(PSP = NA, SG2 = NA, SOL = NA, CSRL = "som_stock"),
+#pH & Chemistry
+#' "ph" = c(PSP = "ph_mean", SG2 = "phh2o", SOL = "ph1to1h2o", CSRL = "ph_profile"),
+#' "cec" = c(PSP = NA, SG2 = "cec", SOL = "cec7", CSRL = "cec_profile"),
+#' "ec" = c(PSP = NA, SG2 = NA, SOL = "ec", CSRL = "ec_profile"),
+#' "sar" = c(PSP = NA, SG2 = NA, SOL = "sar", CSRL = "sar"),
+#' "caco3" = c(PSP = NA, SG2 = NA, SOL = "caco3", CSRL = "caco3"),
+#' "gypsum" = c(PSP = NA, SG2 = NA, SOL = "gypsum", CSRL = NA),
+#' # Hydrology & Conductivity
+#' "ksat" = c(PSP = "ksat_mean", SG2 = NA, SOL = NA, CSRL = "ksat_max"),
+#' "theta_s" = c(PSP = "theta_s_mean", SG2 = NA, SOL = NA, CSRL = NA),
+#' "theta_r" = c(PSP = "theta_r_mean", SG2 = NA, SOL = NA, CSRL = NA),
+#' # Coarse Fragments & Rock Volume
+#' "coarse_fragments" = c(PSP = NA, SG2 = "cfvo", SOL = "fragvol", CSRL = "rf_025"),
+# Land Use & Erosion
+#' "wind_erodibility_group" = c(PSP = NA, SG2 = NA, SOL = NA, CSRL = "wind_erodibility_group"),
+#' "wind_erodibility_index" = c(PSP = NA, SG2 = NA, SOL = NA, CSRL = "wind_erodibility_index"),
+#' "soil_order" = c(PSP = NA, SG2 = NA, SOL = NA, CSRL = "soil_order"),
+#' "soil_temp_regime" = c(PSP = NA, SG2 = NA, SOL = NA, CSRL = "soil_temp_regime")
+#' }
+#'
 #' @import terra sf dplyr tidyr
 #' @export
+#'
 #' @examples
 #' \dontrun{
 #' # Load required libraries
@@ -50,15 +89,12 @@
 #' }
 
 
+
 s.zonalstats <- function(soil_data, tdepth = 0, bdepth = 20,
                          props = c("sand", "clay"), shapes = plots,
                          plots = c("NW_plot", "SW_plot"), stats = c("mean", "min", "max", "sd"),
                          wtd.mean = TRUE, MakePlot = FALSE, output_dir = NULL) {
 
-  require(terra)
-  require(sf)
-  require(dplyr)
-  require(tidyr)
 
   if (MakePlot) {
     cat("You've selected the MakePlot = TRUE, this will slow processing a tad bit. Set to MakePlot = FALSE if you do not need plots. \n")
@@ -67,33 +103,51 @@ s.zonalstats <- function(soil_data, tdepth = 0, bdepth = 20,
 
   # **Property Lookup Table** - Standardizing soil properties across datasets
   property_lookup <- list(
-    "bd" = c(PSP = "bd_mean", SG2 = "bdod", SOL = "dbovendry"),
-    "clay" = c(PSP = "clay_mean", SG2 = "clay", SOL = "claytotal"),
-    "sand" = c(PSP = "sand_mean", SG2 = "sand", SOL = "sandtotal"),
-    "silt" = c(PSP = "silt_mean", SG2 = "silt", SOL = "silttotal"),
-    "som" = c(PSP = "om_mean", SG2 = NA, SOL = NA),
-    "soc" = c(PSP = "soc", SG2 = "soc", SOL = "soc"),
-    "ph" = c(PSP = "ph_mean", SG2 = "phh2o", SOL = "ph1to1h2o"),
-    "cec" = c(PSP = NA, SG2 = "cec", SOL = "cec7"),
-    "ksat" = c(PSP = "ksat_mean", SG2 = NA, SOL = NA),
-    "coarse_fragments" = c(PSP = NA, SG2 = "cfvo", SOL = "fragvol"),
-    "caco3" = c(PSP = NA, SG2 = NA, SOL = "caco3"),
-    "gypsum" = c(PSP = NA, SG2 = NA, SOL = "gypsum"),
-    "sar" = c(PSP = NA, SG2 = NA, SOL = "sar"),
-    "ec" = c(PSP = NA, SG2 = NA, SOL = "ec"),
-    "ocd" = c(PSP = NA, SG2 = "ocd", SOL = NA),
-    "soc_stock" = c(PSP = NA, SG2 = "ocs", SOL = NA),
-    "theta_s" = c(PSP = "theta_s_mean", SG2 = NA, SOL = NA),
-    "theta_r" = c(PSP = "theta_r_mean", SG2 = NA, SOL = NA)
+    # Bulk Density
+    "bd" = c(PSP = "bd_mean", SG2 = "bdod", SOL = "dbovendry", CSRL = "bulk_density"),
+    
+    # Soil Texture (Sand, Silt, Clay)
+    "clay" = c(PSP = "clay_mean", SG2 = "clay", SOL = "claytotal", CSRL = "clay_profile"),
+    "sand" = c(PSP = "sand_mean", SG2 = "sand", SOL = "sandtotal", CSRL = "sand_profile"),
+    "silt" = c(PSP = "silt_mean", SG2 = "silt", SOL = "silttotal", CSRL = "silt_profile"),
+    
+    # Soil Organic Matter / Carbon
+    "som" = c(PSP = "om_mean", SG2 = NA, SOL = NA, CSRL = "som_max"),
+    "soc" = c(PSP = "soc", SG2 = "soc", SOL = "soc", CSRL = "soc_max"),
+    "soc_stock" = c(PSP = NA, SG2 = "ocs", SOL = NA, CSRL = "soc_stock"),
+    "som_stock" = c(PSP = NA, SG2 = NA, SOL = NA, CSRL = "som_stock"),
+    
+    #pH & Chemistry
+    "ph" = c(PSP = "ph_mean", SG2 = "phh2o", SOL = "ph1to1h2o", CSRL = "ph_profile"),
+    "cec" = c(PSP = NA, SG2 = "cec", SOL = "cec7", CSRL = "cec_profile"),
+    "ec" = c(PSP = NA, SG2 = NA, SOL = "ec", CSRL = "ec_profile"),
+    "sar" = c(PSP = NA, SG2 = NA, SOL = "sar", CSRL = "sar"),
+    "caco3" = c(PSP = NA, SG2 = NA, SOL = "caco3", CSRL = "caco3"),
+    "gypsum" = c(PSP = NA, SG2 = NA, SOL = "gypsum", CSRL = NA),
+    
+    # Hydrology & Conductivity
+    "ksat" = c(PSP = "ksat_mean", SG2 = NA, SOL = NA, CSRL = "ksat_max"),
+    "theta_s" = c(PSP = "theta_s_mean", SG2 = NA, SOL = NA, CSRL = NA),
+    "theta_r" = c(PSP = "theta_r_mean", SG2 = NA, SOL = NA, CSRL = NA),
+    
+    # Coarse Fragments & Rock Volume
+    "coarse_fragments" = c(PSP = NA, SG2 = "cfvo", SOL = "fragvol", CSRL = "rf_025"),
+    
+    # Land Use & Erosion
+    "wind_erodibility_group" = c(PSP = NA, SG2 = NA, SOL = NA, CSRL = "wind_erodibility_group"),
+    "wind_erodibility_index" = c(PSP = NA, SG2 = NA, SOL = NA, CSRL = "wind_erodibility_index"),
+    "soil_order" = c(PSP = NA, SG2 = NA, SOL = NA, CSRL = "soil_order"),
+    "soil_temp_regime" = c(PSP = NA, SG2 = NA, SOL = NA, CSRL = "soil_temp_regime")
   )
+  
 
   # **Depth Interval Lookup Table** - Standardizing depth labels across datasets
   depth_interval_lookup <- list(
-    "0_5" = c("0_5", "0-5cm", "0_cm"),
-    "5_15" = c("5_15", "5-15cm", "5_cm"),
-    "15_30" = c("15_30", "15-30cm", "15_cm"),
-    "30_60" = c("30_60", "30-60cm", "30_cm"),
-    "60_100" = c("60_100", "60-100cm", "60_cm"),
+    "0_5" = c("0_5", "0-5cm", "0_cm", "0-5"),
+    "5_15" = c("5_15", "5-15cm", "5_cm", "0-25"),
+    "15_30" = c("15_30", "15-30cm", "15_cm", "0-25", "25-50"),
+    "30_60" = c("30_60", "30-60cm", "30_cm", "30-60", "25-50"),
+    "60_100" = c("60_100", "60-100cm", "60_cm", "30-60"),
     "100_200" = c("100_200", "100-200cm", "100_cm", "150_cm")
   )
 
