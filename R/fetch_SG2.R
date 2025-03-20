@@ -12,11 +12,11 @@
 #' @param scale Numeric. Resolution in meters. Default is `250` (meters).
 #' @param export Logical. If `TRUE`, saves downloaded rasters to `output_dir`. Default is `TRUE`.
 #'
-#' @return A list containing:
-#' \itemize{
-#'   \item \code{stack}: A `SpatRaster` of all downloaded layers.
-#'   \item \code{file_paths}: A character vector of file paths (if `export = TRUE`).
-#'   \item \code{product}: A character string `"SG2"` identifying the dataset.
+#' @return A list with the following elements:
+#' \describe{
+#'   \item{\code{stack}}{A `SpatRaster` containing all downloaded layers.}
+#'   \item{\code{file_paths}}{A character vector of file paths (if `export = TRUE`).}
+#'   \item{\code{product}}{A character string `"SG2"` identifying the dataset.}
 #' }
 #'
 #' @details
