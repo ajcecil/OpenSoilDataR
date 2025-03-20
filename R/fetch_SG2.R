@@ -30,15 +30,15 @@
 #'
 #' @examples
 #' \dontrun{
-#' # Authenticate and initialize Google Earth Engine
+#' Authenticate and initialize Google Earth Engine
 #' gd_authenticate(auth_mode = "notebook")
 #' gd_initialize()
 #'
-#' # Define AOI and fetch SG2 data
+#' Define AOI and fetch SG2 data
 #' output_directory <- "path/to/your/directory"
 #' aoi_raster <- rast("path_to_aoi.tif")
 #'
-#' # Fetch SoilGrids data (without SOC conversion)
+#' Fetch SoilGrids data (without SOC conversion)
 #' sg2_data <- fetch_SG2(
 #'   aoi = aoi_raster,
 #'   properties = c("phh2o", "soc"),
@@ -51,7 +51,7 @@
 #'   soctoperc = FALSE  # Keep SOC as g/kg
 #' )
 #'
-#' # Fetch SoilGrids data with SOC converted to percentage
+#' Fetch SoilGrids data with SOC converted to percentage
 #' sg2_data_perc <- fetch_SG2(
 #'   aoi = aoi_raster,
 #'   properties = c("soc"),
@@ -64,7 +64,7 @@
 #'   soctoperc = TRUE  # Convert SOC from g/kg to %
 #' )
 #'
-#' # Access the loaded SpatRaster
+#' Access the loaded SpatRaster
 #' plot(sg2_data$stack)
 #' }
 
