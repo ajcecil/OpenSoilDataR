@@ -2,6 +2,12 @@
 
 #### by Meyer Bohn, Geospatial Laboratory for Soil Informatics --- Department of Agronomy, Iowa State University
 
+## 📚 Citation
+
+If you use **OpenSoilDataR** in your work, please cite it as:
+
+> Bohn, M.P. 2025. *OpenSoilDataR: Tools for querying, harmonizing, and summarizing public soil datasets*. GitHub repository, https://github.com/MollicMeyer/OpenSoilDataR
+
 This repository provides a tutorial on using **OpenSoilDataR** to fetch soil property rasters from:
 - **POLARIS (PSP)** ```Chaney, N.W., Minasny, B., Herman, J.D., Nauman, T.W., et al. 2019. POLARIS Soil Properties: 30-m Probabilistic Maps of Soil Properties Over the Contiguous United States. Water Resour Res 55, 2916–2938. https://doi.org/10.1029/2018WR022797```
 - **SoilGrids v2 (SG2)** ```Hengl, T., De Jesus, J.M., Heuvelink, G.B.M., Gonzalez, et al. 2017. SoilGrids250m: Global gridded soil information based on machine learning. PLoS One 12, e0169748. https://doi.org/10.1371/JOURNAL.PONE.0169748```
