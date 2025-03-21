@@ -104,7 +104,7 @@ fetch_SGO <- function(aoi,
   
   # Get mukey raster
   cat("Querying mukey raster from:", db, "\n")
-  mu_raster <- mukey.wcs(aoi = aoi, db = db, res = res)
+  mu_raster <- soilDB::mukey.wcs(aoi = aoi, db = db, res = res)
   mukeys <- unique(terra::values(mu_raster))
   mukeys <- mukeys[!is.na(mukeys)]
   
