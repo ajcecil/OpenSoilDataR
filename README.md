@@ -29,6 +29,8 @@ devtools::install_github("MollicMeyer/OpenSoilDataR")
 library(rgeedim)
 library(OpenSoilDataR)
 library(terra)
+library(soilDB)
+library(sf)
 
 ````
 
