@@ -20,8 +20,8 @@ casoilresource.lawr.ucdavis.edu/soil-properties/.```
 Ensure you have the necessary **R packages** installed:
 
 ```r
-install.packages(c("terra", "sf", "dplyr", "tidyr", "rgeedim"))
-devtools::install_github("MollicMeyer/OpenSoilDataR")  # Replace with actual GitHub repo
+install.packages(c("terra", "sf", "dplyr", "tidyr", "rgeedim", "soilDB", "httr"))
+devtools::install_github("MollicMeyer/OpenSoilDataR")  
 
 ````
 ##### Load the libraries:
