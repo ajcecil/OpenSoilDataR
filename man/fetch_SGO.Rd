@@ -74,6 +74,7 @@ Total Sand \tab sandtotal_r \cr
 Total Silt \tab silttotal_r \cr
 And more (see SDA documentation) \tab ...
 }
+}
 
 \examples{
 \dontrun{
