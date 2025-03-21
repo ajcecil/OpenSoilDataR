@@ -9,6 +9,7 @@ This repository provides a tutorial on using **OpenSoilDataR** to fetch soil pro
 - **Cal Soil Res Lab Soil Props 800m  (CSRL)**  **⚠️ Note:** This dataset is intended for **statewide and regional soil analysis**.
 For **local-scale, fine-resolution soil data**, refer to **SSURGO (Soil Survey Geographic Database)**.```Walkinshaw, Mike, A.T. O'Geen, D.E. Beaudette. "Soil Properties." California Soil Resource Lab, 1 Oct. 2020,
 casoilresource.lawr.ucdavis.edu/soil-properties/.```
+- **SSURGO/gNATSGO/RSS (SGO)**  ```USDA Natural Resources Conservation Service, 2024. Soil Survey Geographic (SSURGO) Database. United States Department of Agriculture. Available at: https://sdmdataaccess.nrcs.usda.gov```
 
 - And compute **zonal statistics** for soil properties.
 
@@ -120,6 +121,25 @@ csrl_data <- fetch_CSRL(
 # Plot the loaded SpatRaster
 plot(csrl_data$stack)
 ````
+5️⃣ Fetch SGO Data (gSSURGO 30m) - The list is pretty exhaustive
+````
+sgo_data <- fetch_SGO(
+  aoi = zones,
+  properties = c("claytotal_r", "sandtotal_r", "om_r"),
+  depths = list(c(0, 5), c(5, 15), c(15,30)),
+  method = "Weighted Average",
+  crs = "EPSG:4326",
+  res = 30,
+  db = "gssurgo",
+  export = TRUE,
+  suffix = "ex",
+  tosoc =TRUE,
+  output_dir = output_directory
+)
+
+# Plot the loaded SpatRaster
+plot(sgo_data$stack)
+````
 
 📊 Compute Zonal Statistics  
 1️⃣ Load the Plot Shapefile
@@ -135,7 +155,7 @@ zones <- st_read(shapefile_path)  # Read the shapefile
 Gets the depth weighted value if you take a 20cm slice
 ````
 zonal_results <- s.zonalstats(
-  soil_data = list(sg2_data$stack, psp_data$stack, sol_data$stack, csrl_data$stack),  # Multiple datasets
+  soil_data = list(sg2_data$stack, psp_data$stack, sol_data$stack, csrl_data$stack, sgo_data$stack),  # Multiple datasets
   tdepth = 0,
   bdepth = 20,
   props = c("sand", "clay", "soc"),
