@@ -1,5 +1,5 @@
 Package: OpenSoilDataR
-Title: Download and Process Open Soil Datasets (POLARIS, SoilGrids, SOLUS100, CSRL)
+Title: Download and Process Open Soil Datasets (POLARIS, SoilGrids, SOLUS100, CSRL, SSURGO from SDA)
 Version: 0.1.0
 Authors@R: c(person("Meyer Patrick Bohn", email = "mpbohn@iastate.edu", role = c("aut", "cre")))
 Description: A package to download and process public soil datasets (POLARIS, SoilGrids, SOLUS100, and CSRL) 
