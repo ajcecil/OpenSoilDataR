@@ -124,7 +124,7 @@ plot(csrl_data$stack)
 5️⃣ Fetch SGO Data (gSSURGO 30m) - The list is pretty exhaustive
 ````
 sgo_data <- fetch_SGO(
-  aoi = zones,
+  aoi = aoi_raster,
   properties = c("claytotal_r", "sandtotal_r", "om_r"),
   depths = list(c(0, 5), c(5, 15), c(15,30)),
   method = "Weighted Average",
