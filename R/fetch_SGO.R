@@ -160,5 +160,5 @@ fetch_SGO <- function(aoi,
   final_stack <- terra::rast(raster_stack)
   attr(final_stack, "product") <- "SGO"
   
-  return(list(stack = final_stack, file_paths = file_paths, mukey_raster = mu_raster))
+  return(list(stack = final_stack, file_paths = file_paths, product = "SGO"))
 }
