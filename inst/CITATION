@@ -1,0 +1,11 @@
+```r
+citHeader("To cite OpenSoilDataR in publications, please use:")
+
+bibentry(
+  bibtype = "Manual",
+  title = "OpenSoilDataR: Tools for querying, harmonizing, and summarizing public soil datasets",
+  author = person("M.P.", "Bohn"),
+  year = "2025",
+  note = "R package version 0.1.0",
+  url = "https://github.com/MollicMeyer/OpenSoilDataR"
+)
